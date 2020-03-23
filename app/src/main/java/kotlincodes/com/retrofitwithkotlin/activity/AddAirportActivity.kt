@@ -14,6 +14,8 @@ import retrofit2.Response
 
 class AddAirportActivity : AppCompatActivity() {
 
+    private val token = "GpIHzrRL9RYJj1IMilM2H4MYBf46GmlNr0h06fi63hiWC280ScRCDPjyqG4D";
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_airport)
@@ -23,7 +25,11 @@ class AddAirportActivity : AppCompatActivity() {
         val state = findViewById<EditText>(R.id.state)
 
         savebtn.setOnClickListener{
-            val call: Call<Airport> = ApiClient.getClient.storeAirport(code.text.toString(), city.text.toString(), state.text.toString())
+            val call: Call<Airport> = ApiClient.getClient.storeAirport(
+                    code.text.toString(),
+                    city.text.toString(),
+                    state.text.toString(),
+                    "Bearer $token")
             call.enqueue(object : Callback<Airport> {
 
                 override fun onResponse(call: Call<Airport>?, response: Response<Airport>?) {

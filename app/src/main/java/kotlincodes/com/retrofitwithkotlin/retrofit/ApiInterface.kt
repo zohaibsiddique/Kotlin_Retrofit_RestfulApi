@@ -3,10 +3,7 @@ package kotlincodes.com.retrofitwithkotlin.retrofit
 import kotlincodes.com.retrofitwithkotlin.model.Airport
 import kotlincodes.com.retrofitwithkotlin.model.DataModel
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -21,7 +18,8 @@ interface ApiInterface {
     fun storeAirport(
             @Field("iataCode") iataCode:String,
             @Field("city") city:String,
-            @Field("state") state:String
+            @Field("state") state:String,
+            @Header("Authorization") authHeader:String
     ): Call<Airport>
 
 }
