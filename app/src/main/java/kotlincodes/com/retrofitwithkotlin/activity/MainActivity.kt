@@ -6,12 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import kotlincodes.com.retrofitwithkotlin.R
 import kotlincodes.com.retrofitwithkotlin.adapters.DataAdpter
 import kotlincodes.com.retrofitwithkotlin.model.Airport
 import kotlincodes.com.retrofitwithkotlin.model.DataModel
 import kotlincodes.com.retrofitwithkotlin.retrofit.ApiClient
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
     var dataList = ArrayList<DataModel>()
     var airportList = ArrayList<Airport>()
     lateinit var recyclerView: RecyclerView
+    val token = "GpIHzrRL9RYJj1IMilM2H4MYBf46GmlNr0h06fi63hiWC280ScRCDPjyqG4D";
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         progerssProgressDialog.setCancelable(false)
         progerssProgressDialog.show()
 
-
+//        deleteAirport(); by known id
+//        updateAirport(); by known id
 //        getDat1a()
 
         getAirports()
@@ -76,6 +81,41 @@ class MainActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<List<Airport>>?, t: Throwable?) {
                 progerssProgressDialog.dismiss()
+            }
+
+        })
+    }
+
+    private fun updateAirport() {
+        val call: Call<Airport> = ApiClient.getClient.updateAirport(
+                "latest",
+                "latest",
+                "latest",
+                "Bearer $token")
+        call.enqueue(object : Callback<Airport> {
+
+            override fun onResponse(call: Call<Airport>?, response: Response<Airport>?) {
+                Toast.makeText(applicationContext, response?.body()?.city, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<Airport>?, t: Throwable?) {
+                Toast.makeText(applicationContext, t?.message, Toast.LENGTH_LONG).show()
+            }
+
+        })
+    }
+
+    private fun deleteAirport() {
+        val call: Call<ResponseBody> = ApiClient.getClient.deleteAirport(
+                "Bearer $token")
+        call.enqueue(object : Callback<ResponseBody> {
+
+            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+                Toast.makeText(applicationContext, response.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+                Toast.makeText(applicationContext, t?.message, Toast.LENGTH_LONG).show()
             }
 
         })

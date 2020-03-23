@@ -14,7 +14,7 @@ import retrofit2.Response
 
 class AddAirportActivity : AppCompatActivity() {
 
-    private val token = "GpIHzrRL9RYJj1IMilM2H4MYBf46GmlNr0h06fi63hiWC280ScRCDPjyqG4D";
+    val token = "GpIHzrRL9RYJj1IMilM2H4MYBf46GmlNr0h06fi63hiWC280ScRCDPjyqG4D";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
